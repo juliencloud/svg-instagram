@@ -1,10 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      version="1.1"
      xmlns:xlink="http://www.w3.org/1999/xlink"
-     width="{{PICTURE_WIDTH}}px"
-     height="{{PICTURE_HEIGHT}}px"
-     viewBox="0 0 {{PICTURE_WIDTH}} {{PICTURE_HEIGHT}}" >
+     width="300px"
+     height="200px" >
     <defs>
+        <!-- define vignette overlay -->
+        <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+            <stop offset="0%" style="stop-color:rgb(255,255,255); stop-opacity:0" />
+            <stop offset="50%" style="stop-color:rgb(128,128,128); stop-opacity:0.15" />
+            <stop offset="100%" style="stop-color:rgb(0,0,0); stop-opacity:0.3" />
+        </radialGradient>
+        <rect id="vignette" width="100%" height="100%" fill="url(#grad1)" />
+        <!-- define filter -->
         <filter id="mayfair" color-interpolation-filters="sRGB" >
             <!-- mayfair curves -->
             <feComponentTransfer in="SourceGraphic" result="curves" >
@@ -19,27 +26,16 @@
             </feComponentTransfer>
             <!-- inject vignette overlay -->
             <feImage xlink:href="#vignette"
-                     result="vignette" />
+                     result="vignette"/>
             <!-- merge "overlay" style for the dark parts -->
             <feComposite in="curves" in2="vignette" result="2ab" operator="arithmetic" k1="2" k2="0" k3="0" k4="0" />
             <!-- multiply the overlay with the original -->
             <feBlend in2="curves" in="2ab" mode="multiply" />
         </filter>
-        <!-- define vignette overlay -->
-        <svg width="{{PICTURE_WIDTH}}px" height="{{PICTURE_HEIGHT}}px" viewBox="0 0 {{PICTURE_WIDTH}} {{PICTURE_HEIGHT}}" id="vignette">
-            <defs>
-                <radialGradient id="grad1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                    <stop offset="0%" style="stop-color:rgb(255,255,255); stop-opacity:0" />
-                    <stop offset="50%" style="stop-color:rgb(128,128,128); stop-opacity:0.15" />
-                    <stop offset="100%" style="stop-color:rgb(0,0,0); stop-opacity:0.3" />
-                </radialGradient>
-            </defs>
-        <rect width="100" height="100" fill="url(#grad1)" />
-        </svg>
     </defs>
     <image
             filter="url(#mayfair)"
             width="100%"
             height="100%"
-            xlink:href="{{PICTURE_DATA}}" />
+            xlink:href="animals.jpg" />
 </svg>
